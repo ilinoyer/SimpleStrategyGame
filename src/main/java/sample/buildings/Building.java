@@ -1,6 +1,8 @@
 package sample.buildings;
 
-public abstract class Building {
+import java.io.Serializable;
+
+public abstract class Building implements Serializable {
 
     private int cost;
     private int income;

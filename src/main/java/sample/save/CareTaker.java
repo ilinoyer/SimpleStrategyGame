@@ -9,8 +9,7 @@ public class CareTaker {
 
     public CareTaker()
     {
-        mementoList = new ArrayDeque<>() {
-        };
+        mementoList = new ArrayDeque<>();
     }
 
     public void add(Memento memento)

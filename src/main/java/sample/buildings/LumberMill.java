@@ -1,8 +1,8 @@
 package sample.buildings;
 
-public class Lumbermill extends Building {
+public class LumberMill extends Building {
 
-    public Lumbermill(Position position)
+    public LumberMill(Position position)
     {
         super(3000,500, position);
     }
