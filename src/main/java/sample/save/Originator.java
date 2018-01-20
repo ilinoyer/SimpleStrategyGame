@@ -18,4 +18,8 @@ public class Originator {
     {
         player = m.getPlayer();
     }
+
+    public Player getPlayer() {
+        return player;
+    }
 }

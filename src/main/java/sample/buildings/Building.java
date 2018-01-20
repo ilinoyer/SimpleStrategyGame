@@ -25,4 +25,8 @@ public abstract class Building implements Serializable {
     public int getIncome() {
         return income;
     }
+
+    public Position getPosition() {
+        return position;
+    }
 }

@@ -1,7 +1,4 @@
 package sample.save;
-
-import sample.Player;
-
 import java.util.*;
 
 public class CareTaker {
@@ -15,6 +12,7 @@ public class CareTaker {
     public void add(Memento memento)
     {
         mementoList.add(memento);
+        System.out.println("Saved: " + memento);
     }
 
     public Memento get()

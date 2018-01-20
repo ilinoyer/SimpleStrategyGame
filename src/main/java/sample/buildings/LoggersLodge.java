@@ -11,4 +11,9 @@ public class LoggersLodge extends Building {
     protected void build() {
         System.out.println("Buduje Chatkę drwala");
     }
+
+    @Override
+    public String toString() {
+        return "Chatka Drwala";
+    }
 }

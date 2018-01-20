@@ -11,4 +11,9 @@ public class LumberMill extends Building {
     protected void build() {
         System.out.println("Buduje Tartak");
     }
+
+    @Override
+    public String toString() {
+        return "Tartak";
+    }
 }

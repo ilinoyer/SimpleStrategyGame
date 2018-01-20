@@ -7,7 +7,6 @@ import sample.buildings.Quarry;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class BuildingsContainer implements Serializable {
 
@@ -18,11 +17,6 @@ public class BuildingsContainer implements Serializable {
     {
         this.mapSize = mapSize;
         buildingsList = new ArrayList<>(mapSize);
-    }
-
-    public void remove(Building building)
-    {
-        buildingsList.remove(building);
     }
 
     public boolean add(Building building)
@@ -56,9 +50,12 @@ public class BuildingsContainer implements Serializable {
         return (lumberMill && quarry && loggersLodge);
     }
 
-    public int getMapSize()
-    {
-        return mapSize;
+    public Building getBuilding(int xPos, int yPos) {
+        for(Building building :buildingsList)
+        {
+            if(building.getPosition().getxPos() == xPos && building.getPosition().getyPos() == yPos)
+                return building;
+        }
+        return null;
     }
-
 }

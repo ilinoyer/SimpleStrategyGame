@@ -11,4 +11,9 @@ public class Mint extends Building {
     protected void build() {
         System.out.println("Buduje Mennice");
     }
+
+    @Override
+    public String toString() {
+        return "Mennica";
+    }
 }

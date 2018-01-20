@@ -49,4 +49,9 @@ public class Player implements Serializable {
     public int getTurnCounter() {
         return turnCounter;
     }
+
+    public Building getBuilding(int xPos, int yPos)
+    {
+        return buildingsContainer.getBuilding(xPos,yPos);
+    }
 }

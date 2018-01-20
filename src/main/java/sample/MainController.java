@@ -1,86 +1,97 @@
 package sample;
 
-import javafx.application.Platform;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import sample.buildings.*;
+import sample.save.CareTaker;
+import sample.save.Originator;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable{
+public class MainController implements Initializable{
 
     @FXML
-    Button goldMineButton;
+    private Button goldMineButton;
 
     @FXML
-    Button loggersLodgeButton;
+    private Button loggersLodgeButton;
 
     @FXML
-    Button lumberMillButton;
+    private Button lumberMillButton;
 
     @FXML
-    Button mintButton;
+    private Button mintButton;
 
     @FXML
-    Button quarryButton;
+    private Button quarryButton;
 
     @FXML
-    Button reverseButton;
+    private Button reverseButton;
 
     @FXML
-    Button endTurnButton;
+    private Button endTurnButton;
 
     @FXML
-    Label moneyLabel;
+    private Label moneyLabel;
 
     @FXML
-    Text currSelectedBuilding;
+    private Text currSelectedBuilding;
 
     @FXML
-    Text totalIncome;
+    private Text totalIncome;
 
     @FXML
-    Text turnCounter;
+    private Text turnCounter;
 
     @FXML
-    GridPane boardPane;
+    private GridPane boardPane;
 
     private List<Button> buttonList;
     private List<Button> board;
     private int rowNum;
     private int colNum;
     private Player player;
+    private Originator originator;
+    private CareTaker careTaker;
 
 
-    public Controller()
+    public MainController()
     {
         this.colNum = 6;
         this.rowNum = 6;
         this.player = new Player(colNum*rowNum);
         buttonList = new ArrayList<>();
         board = new ArrayList<>();
-
+        originator = new Originator();
+        careTaker = new CareTaker();
+        originator.setPlayer((Player) DeepCopy.copy(player));
     }
 
     private void initBoard()
     {
+        boardPane.getChildren().clear();
+
         for(int i = 0 ; i < rowNum; ++i)
         {
             for(int j = 0; j < colNum; j ++)
             {
+                Building building = player.getBuilding(i,j);
                 BoardButton button = new BoardButton(i,j);
+
+                if(building != null)
+                    button.setText(building.toString());
+
                 AnchorPane anchorPane = new AnchorPane();
                 anchorPane.getChildren().add(button);
                 AnchorPane.setBottomAnchor(button,0.0);
@@ -221,8 +232,28 @@ public class Controller implements Initializable{
         initBuildingButtons();
 
         endTurnButton.setOnAction(event -> {
+            careTaker.add(originator.save());
             player.collectIncome();
             updateView();
+            originator.setPlayer((Player) DeepCopy.copy(player));
+        });
+
+        reverseButton.setOnAction(event -> {
+            try {
+                originator.restore(careTaker.get());
+                player = (Player) DeepCopy.copy(originator.getPlayer());
+                updateView();
+                initBoard();
+            }
+            catch (NoSuchElementException e)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Nie można cofnac", ButtonType.OK);
+                alert.showAndWait();
+
+                if (alert.getResult() == ButtonType.OK) {
+                    alert.close();
+                }
+            }
         });
 
     }
@@ -231,12 +262,12 @@ public class Controller implements Initializable{
     {
         private Position position;
 
-        public BoardButton(int xPos, int yPos)
+        private BoardButton(int xPos, int yPos)
         {
             position = new Position(xPos,yPos);
         }
 
-        public Position getPosition() {
+        private Position getPosition() {
             return position;
         }
     }

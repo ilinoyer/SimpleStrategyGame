@@ -10,4 +10,9 @@ public class GoldMine extends Building {
     protected void build() {
         System.out.println("Buduje kopalnie złota");
     }
+
+    @Override
+    public String toString() {
+        return "Kopalnia złota";
+    }
 }

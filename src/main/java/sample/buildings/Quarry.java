@@ -11,4 +11,9 @@ public class Quarry extends Building {
     protected void build() {
         System.out.println("Buduje Kamieniołom");
     }
+
+    @Override
+    public String toString() {
+        return "Kamieniołom";
+    }
 }
